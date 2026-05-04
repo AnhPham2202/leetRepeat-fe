@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+ï»¿import { useEffect, useState } from "react";
 import { api, DueItem } from "../api";
 
 function difficultyClass(value: string): string {
@@ -63,11 +63,11 @@ export function TodayPage() {
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="border-b border-slate-200 px-5 py-4">
           <h2 className="text-lg font-bold">Todo Review</h2>
-          <p className="text-sm text-slate-500">Các bài dã t?i h?n theo spaced repetition.</p>
+          <p className="text-sm text-slate-500">Problems currently due for spaced repetition.</p>
         </div>
 
         {items.length === 0 ? (
-          <p className="px-5 py-8 text-sm font-semibold text-slate-500">Không có bài nào d?n h?n ôn.</p>
+          <p className="px-5 py-8 text-sm font-semibold text-slate-500">No problems are due for review.</p>
         ) : (
           <div className="overflow-x-auto px-5 pb-4 pt-2">
             <table className="w-full min-w-[860px] border-collapse text-sm">

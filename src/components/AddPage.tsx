@@ -13,7 +13,7 @@ export function AddPage() {
 
     const slug = parseSlug(url);
     if (!slug) {
-      setError("URL không h?p l? ho?c không parse du?c slug.");
+      setError("Invalid URL or unable to parse the problem slug.");
       return;
     }
 
@@ -23,7 +23,7 @@ export function AddPage() {
         title: slug,
         url
       });
-      setMessage(result.message || "Ðã thêm bài.");
+      setMessage(result.message || "Problem added.");
       setUrl("");
     } catch (err) {
       setError((err as Error).message);
@@ -33,7 +33,7 @@ export function AddPage() {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <h2 className="text-lg font-bold">Add Problem</h2>
-      <p className="mt-1 text-sm text-slate-500">Paste link LeetCode d? thêm vào h? th?ng ôn t?p.</p>
+      <p className="mt-1 text-sm text-slate-500">Paste a LeetCode link to add it to your review queue.</p>
       <form className="mt-5 grid gap-4" onSubmit={onSubmit}>
         <label className="grid gap-2 text-sm font-bold">
           LeetCode URL
