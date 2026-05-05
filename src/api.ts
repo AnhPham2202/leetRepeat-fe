@@ -19,6 +19,11 @@ export type Config = {
   repFactor: number;
 };
 
+function withQuery(path: string, params: Record<string, string>): string {
+  const query = new URLSearchParams(params);
+  return `${path}?${query.toString()}`;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
     headers: { "Content-Type": "application/json" },
@@ -34,12 +39,23 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  getDue: () => request<DueItem[]>("/api/due"),
-  getConfig: () => request<Config>("/api/config"),
-  addProblem: (payload: AddProblemPayload) =>
-    request<{ message: string }>("/api/problems", { method: "POST", body: JSON.stringify(payload) }),
-  review: (problemId: string, quality: 1 | 3 | 5) => request<{ message: string }>("/api/review", { method: "POST", body: JSON.stringify({ problemId, quality }) }),
-  saveConfig: (payload: Config) => request<{ message: string }>("/api/config", { method: "POST", body: JSON.stringify(payload) })
+  getDue: (userId: string) => request<DueItem[]>(withQuery("/api/due", { userId })),
+  getConfig: (userId: string) => request<Config>(withQuery("/api/config", { userId })),
+  addProblem: (userId: string, payload: AddProblemPayload) =>
+    request<{ message: string }>("/api/problems", {
+      method: "POST",
+      body: JSON.stringify({ ...payload, userId })
+    }),
+  review: (userId: string, problemId: string, quality: 1 | 3 | 5) =>
+    request<{ message: string }>("/api/review", {
+      method: "POST",
+      body: JSON.stringify({ userId, problemId, quality })
+    }),
+  saveConfig: (userId: string, payload: Config) =>
+    request<{ message: string }>("/api/config", {
+      method: "POST",
+      body: JSON.stringify({ ...payload, userId })
+    })
 };
 
 export function parseSlug(url: string): string | null {
