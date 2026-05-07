@@ -1,3 +1,5 @@
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+
 export type Problem = {
   id: string;
   title: string;
@@ -25,7 +27,7 @@ function withQuery(path: string, params: Record<string, string>): string {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: { "Content-Type": "application/json" },
     ...init
   });
