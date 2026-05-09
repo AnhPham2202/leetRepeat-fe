@@ -39,6 +39,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  userExists: (userId: string) => request<{ exists: boolean }>(withQuery("/api/users/exists", { userId })),
   getDue: (userId: string) => request<DueItem[]>(withQuery("/api/due", { userId })),
   getConfig: (userId: string) => request<Config>(withQuery("/api/config", { userId })),
   addProblem: (userId: string, payload: AddProblemPayload) =>

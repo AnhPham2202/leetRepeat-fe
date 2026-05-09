@@ -10,6 +10,14 @@ export function SettingsPage({ userId }: SettingsPageProps) {
   const [repFactor, setRepFactor] = useState("2");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const previewFirstIntervalDays = Number(firstIntervalDays);
+  const previewRepFactor = Number(repFactor);
+  const repFactorPreview =
+    Number.isFinite(previewFirstIntervalDays) && previewFirstIntervalDays > 0 && Number.isFinite(previewRepFactor) && previewRepFactor > 1
+      ? [previewFirstIntervalDays, previewFirstIntervalDays * previewRepFactor, previewFirstIntervalDays * previewRepFactor * previewRepFactor]
+          .map((interval) => `Day T + ${Math.max(1, Math.round(interval))}`)
+          .join(" -> ")
+      : "Day T + x";
 
   useEffect(() => {
     api
@@ -77,6 +85,7 @@ export function SettingsPage({ userId }: SettingsPageProps) {
             onChange={(event) => setRepFactor(event.target.value)}
             required
           />
+          <span className="text-xs font-medium text-slate-500">Rep factor multiplies the next interval, e.g. {repFactorPreview}.</span>
         </label>
 
         <button className="w-fit rounded-lg bg-violet-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-violet-700" type="submit">

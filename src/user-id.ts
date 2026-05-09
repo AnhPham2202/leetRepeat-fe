@@ -18,3 +18,7 @@ export function getOrCreateUserId(): string {
   localStorage.setItem(LOCAL_STORAGE_USER_ID_KEY, next);
   return next;
 }
+
+export function saveUserId(userId: string): void {
+  localStorage.setItem(LOCAL_STORAGE_USER_ID_KEY, userId.trim());
+}
